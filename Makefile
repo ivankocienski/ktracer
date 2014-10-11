@@ -7,7 +7,10 @@ LIBS=-lSDL
 OBJECTS= \
 	main.o \
 	application.o \
-	window.o
+	window.o \
+	vector3.o \
+	camera.o \
+	film.o
 
 
 all: $(OBJECTS)

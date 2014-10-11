@@ -3,6 +3,8 @@
 
 #include <SDL/SDL.h>
 
+#include "film.hh"
+
 class Window {
 private:
 
@@ -21,9 +23,7 @@ public:
   int width();
   int height();
 
-  void lock();
-  void unlock();
-  void plot( int, int, unsigned char );
+  void show( Film& );
 
   bool active();
   void tick(); 

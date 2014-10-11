@@ -2,6 +2,9 @@
 #include <iostream>
 
 #include "application.hh"
+#include "camera.hh"
+#include "window.hh"
+#include "film.hh"
 
 using namespace std;
 
@@ -15,14 +18,13 @@ int Application::main() {
     return -1;
   }
 
-  m_window.clear();
-  m_window.lock();
-
-  for( int y = 0; y < m_window.height(); y++)
-    for( int x = 0; x < m_window.width(); x++ )
-      m_window.plot( x, y, x ^ y );
-
-  m_window.unlock();
+  m_camera.position( 0, 0, 0 );
+  m_camera.direction( 0, 0, 1 );
+  
+  Film film( m_window.width(), m_window.height() );
+  
+  m_camera.raytrace( film );
+  m_window.show( film ); 
 
   while( m_window.active() ) {
     m_window.tick();

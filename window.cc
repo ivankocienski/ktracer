@@ -43,21 +43,54 @@ int Window::height() {
   return m_screen->h;
 }
 
-void Window::lock() {
+void Window::show( Film &film ) {
+
+  int fw;
+  int fh;
+  int fxo = 0;
+  int fyo = 0;
+  int sxo = 0;
+  int syo = 0;
+  int x;
+  int y;
+
+  fw = film.width();
+  fh = film.height();
+
+  if(fw > m_screen->w) {
+    fw  = m_screen->w;
+    fxo = (film.width() - fw) / 2;
+
+  } else {
+    sxo = (m_screen->w - fw) / 2;
+  }
+
+  if(fh > m_screen->h) {
+    fh = m_screen->h;
+    fyo = (film.height() - fh) / 2; 
+
+  } else {
+    syo = (m_screen->h - fh) / 2;
+  }
+
   SDL_LockSurface(m_screen);
-}
 
-void Window::unlock() {
-  SDL_UnlockSurface(m_screen);
-}
+  unsigned char *vbuff = (unsigned char *)m_screen->pixels;
 
-void Window::plot( int x, int y, unsigned char c ) {
-  if( x < 0 || x >= m_screen->w ) return;
-  if( y < 0 || y >= m_screen->h ) return;
+  vbuff += syo * m_screen->pitch + sxo;
 
-  unsigned char *p = (unsigned char *)m_screen->pixels;
+  for( y = syo; y < fh; y++ ) {
+    for( x = sxo; x < fw; x++ ) {
 
-  p[ y * m_screen->pitch + x ] = c; 
+      *vbuff = film.pget( fxo + x, fyo + y );
+
+      vbuff++; 
+    }
+
+    vbuff += m_screen->pitch - fw;
+  }
+  
+  SDL_UnlockSurface(m_screen); 
 }
 
 bool Window::active() {
