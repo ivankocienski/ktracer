@@ -16,12 +16,15 @@ public:
 
   void  normalize();
   float magnitude();
+  float dot( const Vector3 & );
   void  invert();
 
   Vector3 cross( const Vector3 & );
   
   void operator*=( float );
   void operator+=( float );
+
+  Vector3 operator-( const Vector3 & );
 
   void dump();
 };

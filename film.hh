@@ -21,6 +21,7 @@ public:
 
   int width();
   int height();
+  float ratio();
 
   void plot( int, int, pixel_t );
   pixel_t pget( int, int ); 

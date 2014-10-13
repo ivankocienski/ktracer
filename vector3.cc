@@ -49,6 +49,10 @@ void Vector3::operator+=( float q ) {
   z += q; 
 }
 
+float Vector3::dot( const Vector3 &v ) {
+  return x * v.x + y * v.y + z * v.z;
+}
+
 Vector3 Vector3::cross( const Vector3 &v ) {
 
   Vector3 nv;
@@ -62,4 +66,8 @@ Vector3 Vector3::cross( const Vector3 &v ) {
 
 void Vector3::dump() {
   std::cout << "x=" << x << ", y=" << y << ", z=" << z << std::endl;
+}
+
+Vector3 Vector3::operator-( const Vector3 &v ) {
+  return Vector3( x - v.x, y - v.y, z - v.z );
 }

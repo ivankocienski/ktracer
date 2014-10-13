@@ -2,7 +2,7 @@
 OUTFILE=raytracer
 CFLAGS=-Wall -g 
 LFLAGS=-g -rdynamic
-LIBS=-lSDL
+LIBS=-lSDL -lm
 
 OBJECTS= \
 	main.o \
@@ -10,7 +10,9 @@ OBJECTS= \
 	window.o \
 	vector3.o \
 	camera.o \
-	film.o
+	film.o \
+	ray.o \
+	sphere.o
 
 
 all: $(OBJECTS)

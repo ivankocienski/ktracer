@@ -26,6 +26,10 @@ int Film::height() {
   return m_height; 
 }
 
+float Film::ratio() {
+  return (float)m_width / (float)m_height;
+}
+
 Film::pixel_t Film::pget( int x, int y ) {
   if( x < 0 || x >= m_width  ) return 0;
   if( y < 0 || y >= m_height ) return 0;
