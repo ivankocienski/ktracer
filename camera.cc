@@ -2,6 +2,7 @@
 #include "debug.h"
 
 #include <math.h>
+#include <float.h>
 
 #include "camera.hh"
 #include "ray.hh"
@@ -21,11 +22,12 @@ void Camera::direction( float dx, float dy ) {
   m_pitch   = dy;
 }
 
-void Camera::raytrace( Film& film, Sphere &sphere ) {
+void Camera::raytrace( Film& film, Sphere &sphere, Plane &plane ) {
 
   float iw = 1.0 / film.width();
   float ih = 1.0 / film.height();
 
+  // TODO: figure out how/why this works.
   float angle = tan(M_PI * 0.5 * camera_fov / 180.0); //tan((M_PI * 2) / (float)camera_fov);
 
   for( int y = 0; y < film.height(); y++) {
@@ -38,7 +40,7 @@ void Camera::raytrace( Film& film, Sphere &sphere ) {
       Vector3 dir = Vector3( xx, yy, -1 );
       dir.normalize();
 
-      Ray ray( m_position, dir, sphere );
+      Ray ray( m_position, dir, sphere, plane );
 
       ray.trace();
       film.plot( x, y, ray.color() );

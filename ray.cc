@@ -1,38 +1,34 @@
 
-#include <math.h>
+#include <float.h>
 
 #include "ray.hh"
 
-Ray::Ray( Vector3 &p, Vector3 &d, Sphere &sphere ) {
+Ray::Ray( Vector3 &p, Vector3 &d, Sphere &sphere, Plane &plane ) {
   m_position  = p;
   m_direction = d;
   m_sphere    = &sphere;
+  m_plane     = &plane;
 }
 
 void Ray::trace() {
 
+  float dist = FLT_MAX;
+  float d;
+
   m_color = 0;
 
-  // we only have one sphere...
+  if( m_sphere->has_hit( m_position, m_direction, &d ) ) {
+    dist = d;
+    m_color = 255;
+  }
 
-  Vector3 l = m_sphere->m_position - m_position;
-  float tca = l.dot( m_direction );
+  if( m_plane->has_hit( m_position, m_direction, &d ) ) {
+    if( d < dist ) {
+      dist = d;
+      m_color = 100;
+    }
+  }
 
-  // behind us?
-  if( tca < 0 ) return;
-
-  float d = sqrt( l.dot(l) - tca * tca );
-
-  if( d < 0 ) return;
-  if( d > m_sphere->m_radius ) return;
-
-  // where on the sphere did we hit>
-  float hit_offset = sqrt( m_sphere->m_radius * m_sphere->m_radius - d * d );
-
-  float h1 = tca - hit_offset;
-  float h2 = tca + hit_offset;
-
-  m_color = 255;
 }
 
 unsigned char Ray::color() {

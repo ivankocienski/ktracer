@@ -4,6 +4,7 @@
 #include "vector3.hh"
 #include "film.hh"
 #include "sphere.hh"
+#include "plane.hh"
 
 class Camera {
 private:
@@ -20,6 +21,6 @@ public:
 
   void position( float, float, float );
   void direction( float, float );
-  void raytrace( Film&, Sphere& );
+  void raytrace( Film&, Sphere&, Plane& );
 };
 

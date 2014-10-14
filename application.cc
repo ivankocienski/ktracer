@@ -6,6 +6,7 @@
 #include "window.hh"
 #include "film.hh"
 #include "sphere.hh"
+#include "plane.hh"
 
 using namespace std;
 
@@ -27,8 +28,9 @@ int Application::main() {
   Film film( m_window.width(), m_window.height() );
 
   Sphere sphere( Vector3( 0, 0, -10.5 ), 1 );
+  Plane plane( Vector3( 0, 1, 0 ), Vector3( 0, -1, 0 ) );
 
-  m_camera.raytrace( film, sphere );
+  m_camera.raytrace( film, sphere, plane );
   m_window.show( film ); 
 
   while( m_window.active() ) {

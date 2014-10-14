@@ -11,5 +11,7 @@ public:
 
   Sphere( Vector3 const&, float );
 
+  bool has_hit( const Vector3&, const Vector3&, float* );
+
 };
 
