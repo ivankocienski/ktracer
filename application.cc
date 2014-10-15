@@ -36,7 +36,11 @@ int Application::main() {
 
   Plane plane( Vector3( 0, -1, 0 ), Vector3( 0, 1, 0 ) );
 
-  m_camera.raytrace( film, spheres, plane );
+  Vector3 light( 0.2, 0.7, 0.3 );
+  light.normalize();
+
+  m_camera.raytrace( film, spheres, plane, light );
+
   m_window.show( film ); 
 
   while( m_window.active() ) {

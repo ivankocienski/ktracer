@@ -25,6 +25,8 @@ public:
   void operator+=( float );
 
   Vector3 operator-( const Vector3 & );
+  Vector3 operator+( const Vector3 & );
+  Vector3 operator*( float );
 
   void dump();
 };

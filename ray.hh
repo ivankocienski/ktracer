@@ -17,9 +17,11 @@ private:
 
   std::vector<Sphere> &m_spheres;
 
+  Vector3 &m_light_dir;
+
 public:
 
-  Ray( Vector3&, Vector3&, std::vector<Sphere>&, Plane& );
+  Ray( Vector3&, Vector3&, std::vector<Sphere>&, Plane&, Vector3& );
   void trace(float *);
   unsigned char color();
 };

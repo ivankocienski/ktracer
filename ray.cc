@@ -3,7 +3,7 @@
 
 #include "ray.hh"
 
-Ray::Ray( Vector3 &p, Vector3 &d, std::vector<Sphere> &sph, Plane &plane ) : m_spheres( sph ) {
+Ray::Ray( Vector3 &p, Vector3 &d, std::vector<Sphere> &sph, Plane &plane, Vector3 &ld ) : m_spheres( sph ), m_light_dir(ld) {
   m_position  = p;
   m_direction = d;
   m_plane     = &plane;
@@ -21,7 +21,9 @@ void Ray::trace(float *rd) {
     if( (*it).has_hit( m_position, m_direction, &d ) ) {
       if( d < dist ) {
         dist = d;
-        color = 255;
+
+        Vector3 hit = m_position + (m_direction * d);
+        color = (*it).luminance( hit, m_light_dir );
       }
     }
   }

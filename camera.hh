@@ -27,7 +27,7 @@ public:
 
   void position( float, float, float );
   void direction( float, float );
-  void raytrace( Film&, std::vector<Sphere>&, Plane& );
+  void raytrace( Film&, std::vector<Sphere>&, Plane&, Vector3& );
 
   float z_at( int, int );
 };

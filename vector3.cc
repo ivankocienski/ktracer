@@ -71,3 +71,11 @@ void Vector3::dump() {
 Vector3 Vector3::operator-( const Vector3 &v ) {
   return Vector3( x - v.x, y - v.y, z - v.z );
 }
+
+Vector3 Vector3::operator+( const Vector3 &v ) {
+  return Vector3( x + v.x, y + v.y, z + v.z );
+}
+
+Vector3 Vector3::operator*( float d ) {
+  return Vector3( x * d, y * d, z * d );
+}

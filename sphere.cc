@@ -34,3 +34,13 @@ bool Sphere::has_hit( const Vector3 &ray_pos, const Vector3 &ray_dir, float *dis
   return true;
 }
 
+float Sphere::luminance( Vector3 &hit_pos, Vector3 &light_dir ) {
+
+  Vector3 surface_normal = m_position - hit_pos;
+  surface_normal.normalize();
+
+  float d = light_dir.dot(surface_normal);
+  if( d >= 0 ) return 0; // 'behind' us
+
+  return -d * 255; 
+}

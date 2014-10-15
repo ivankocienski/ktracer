@@ -29,7 +29,7 @@ float Camera::z_at( int x, int y ) {
   return m_zbuff[ y * m_zbw + x ]; 
 }
 
-void Camera::raytrace( Film& film, std::vector<Sphere> &spheres, Plane &plane ) {
+void Camera::raytrace( Film& film, std::vector<Sphere> &spheres, Plane &plane, Vector3 &light_dir ) {
 
   float iw = 1.0 / film.width();
   float ih = 1.0 / film.height();
@@ -52,7 +52,7 @@ void Camera::raytrace( Film& film, std::vector<Sphere> &spheres, Plane &plane ) 
       Vector3 dir = Vector3( xx, yy, -1 );
       dir.normalize();
 
-      Ray ray( m_position, dir, spheres, plane );
+      Ray ray( m_position, dir, spheres, plane, light_dir );
 
       ray.trace(&d);
       film.plot( x, y, ray.color() );

@@ -13,5 +13,7 @@ public:
 
   bool has_hit( const Vector3&, const Vector3&, float* );
 
+  float luminance( Vector3&, Vector3& );
+
 };
 
