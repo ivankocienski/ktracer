@@ -11,6 +11,8 @@ private:
   SDL_Surface *m_screen;
   bool m_active;
   
+  int m_mouse_x;
+  int m_mouse_y;
 
 public:
 
@@ -18,6 +20,7 @@ public:
   ~Window();
 
   bool open( int, int, const char * );
+  void set_title( const char * );
   
   void clear();
   int width();
@@ -27,5 +30,8 @@ public:
 
   bool active();
   void tick(); 
+
+  int mouse_x();
+  int mouse_y();
 };
 

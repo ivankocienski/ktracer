@@ -1,5 +1,7 @@
 
 #include <iostream>
+#include <vector>
+#include <sstream>
 
 #include "application.hh"
 #include "camera.hh"
@@ -27,13 +29,27 @@ int Application::main() {
   
   Film film( m_window.width(), m_window.height() );
 
-  Sphere sphere( Vector3( 0, 0, -10.5 ), 1 );
-  Plane plane( Vector3( 0, 1, 0 ), Vector3( 0, -1, 0 ) );
+  vector<Sphere> spheres;
 
-  m_camera.raytrace( film, sphere, plane );
+  spheres.push_back(Sphere( Vector3(  0.5, 0, -11.5 ), 1 ));
+  spheres.push_back(Sphere( Vector3( -0.5, 0, -10.5 ), 1 ));
+
+  Plane plane( Vector3( 0, -1, 0 ), Vector3( 0, 1, 0 ) );
+
+  m_camera.raytrace( film, spheres, plane );
   m_window.show( film ); 
 
   while( m_window.active() ) {
+    int x = m_window.mouse_x();
+    int y = m_window.mouse_y();
+    float d = m_camera.z_at( x, y );
+
+    stringstream s;
+
+    s << "x=" << x << "  y=" << y << "  d=" << d;
+
+    m_window.set_title( s.str().c_str() );
+
     m_window.tick();
   }
   

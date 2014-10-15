@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "vector3.hh"
 #include "sphere.hh"
 #include "plane.hh"
@@ -10,14 +12,15 @@ private:
 
   Vector3 m_position;
   Vector3 m_direction;
-  Sphere *m_sphere;
   Plane  *m_plane;
   unsigned char m_color;
 
+  std::vector<Sphere> &m_spheres;
+
 public:
 
-  Ray( Vector3&, Vector3&, Sphere&, Plane& );
-  void trace();
+  Ray( Vector3&, Vector3&, std::vector<Sphere>&, Plane& );
+  void trace(float *);
   unsigned char color();
 };
 

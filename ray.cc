@@ -3,32 +3,46 @@
 
 #include "ray.hh"
 
-Ray::Ray( Vector3 &p, Vector3 &d, Sphere &sphere, Plane &plane ) {
+Ray::Ray( Vector3 &p, Vector3 &d, std::vector<Sphere> &sph, Plane &plane ) : m_spheres( sph ) {
   m_position  = p;
   m_direction = d;
-  m_sphere    = &sphere;
   m_plane     = &plane;
 }
 
-void Ray::trace() {
+void Ray::trace(float *rd) {
 
   float dist = FLT_MAX;
   float d;
+  unsigned char color = 0;
 
   m_color = 0;
 
-  if( m_sphere->has_hit( m_position, m_direction, &d ) ) {
-    dist = d;
-    m_color = 255;
+  for( std::vector<Sphere>::iterator it = m_spheres.begin(); it != m_spheres.end(); it++ ) {
+    if( (*it).has_hit( m_position, m_direction, &d ) ) {
+      if( d < dist ) {
+        dist = d;
+        color = 255;
+      }
+    }
   }
 
   if( m_plane->has_hit( m_position, m_direction, &d ) ) {
     if( d < dist ) {
       dist = d;
-      m_color = 100;
+      color = 100;
     }
   }
+  
 
+  if( dist >= 1 && dist <= 25 ) {
+    m_color = (float)color * (1.0 - (dist / 25.0));
+
+  }
+
+  if( dist < FLT_MAX )
+    *rd = d;
+  else
+    *rd = -1;
 }
 
 unsigned char Ray::color() {

@@ -12,9 +12,9 @@ bool Plane::has_hit( Vector3& ray_pos, Vector3& ray_dir, float* dist ) {
 
   float n = ray_dir.dot( m_direction );
 
-  if( n <= 0 ) return false;
+  if( n >= 0 ) return false;
 
-  float t = (ray_pos - m_position).dot( m_direction ); 
+  float t = (m_position - ray_pos ).dot( m_direction ); 
 
   if( dist ) *dist = t / n;
   

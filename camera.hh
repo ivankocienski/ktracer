@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include "vector3.hh"
 #include "film.hh"
 #include "sphere.hh"
@@ -11,6 +13,10 @@ private:
 
   Vector3 m_position;
 
+  std::vector<float> m_zbuff;
+  int m_zbw; // z buffer width
+  int m_zbh;
+  
   /* TODO: use quaternions */
   float m_heading;
   float m_pitch;
@@ -21,6 +27,8 @@ public:
 
   void position( float, float, float );
   void direction( float, float );
-  void raytrace( Film&, Sphere&, Plane& );
+  void raytrace( Film&, std::vector<Sphere>&, Plane& );
+
+  float z_at( int, int );
 };
 

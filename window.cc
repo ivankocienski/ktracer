@@ -35,6 +35,10 @@ bool Window::open( int xr, int yr, const char *t ) {
   return true;
 }
 
+void Window::set_title( const char *t ) {
+  SDL_WM_SetCaption( t, 0 );
+}
+
 int Window::width() {
   return m_screen->w;
 }
@@ -120,7 +124,19 @@ void Window::tick() {
 
         }
         break;
+
+      case SDL_MOUSEMOTION:
+        m_mouse_x = event.motion.x;
+        m_mouse_y = event.motion.y;
+        break;
     }
   }
 }
 
+int Window::mouse_x() {
+  return m_mouse_x;
+}
+
+int Window::mouse_y() {
+  return m_mouse_y;
+}

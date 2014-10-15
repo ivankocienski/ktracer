@@ -24,7 +24,7 @@ bool Sphere::has_hit( const Vector3 &ray_pos, const Vector3 &ray_dir, float *dis
   if( d > m_radius ) return false;
 
   // where on the sphere did we hit>
-  float hit_offset = sqrt( m_radius * m_radius - d * d );
+  float hit_offset = sqrt( m_radius * m_radius + d * d );
 
   float h1 = tca - hit_offset;
   float h2 = tca + hit_offset;
