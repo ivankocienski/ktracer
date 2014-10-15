@@ -31,7 +31,9 @@ void Ray::trace(float *rd) {
   if( m_plane->has_hit( m_position, m_direction, &d ) ) {
     if( d < dist ) {
       dist = d;
-      color = 100;
+      //color = 100;
+      Vector3 hit = m_position + (m_direction * d);
+      color = m_plane->luminance( hit );
     }
   }
   

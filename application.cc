@@ -34,7 +34,7 @@ int Application::main() {
   spheres.push_back(Sphere( Vector3(  0.5, 0, -11.5 ), 1 ));
   spheres.push_back(Sphere( Vector3( -0.5, 0, -10.5 ), 1 ));
 
-  Plane plane( Vector3( 0, -1, 0 ), Vector3( 0, 1, 0 ) );
+  Plane plane( Vector3( 0, -1.5, 0 ), Vector3( 0, 1, 0 ) );
 
   Vector3 light( 0.2, 0.7, 0.3 );
   light.normalize();
