@@ -23,7 +23,7 @@ void Scene::build() {
 RayHit Scene::trace( const Ray& ray ) {
 
   float dist = FLT_MAX;
-  float lum;
+  float lum = 0;
   float d;
   scene_object_vector_t::iterator it;
 
@@ -41,9 +41,10 @@ RayHit Scene::trace( const Ray& ray ) {
     lum  = obj->luminance( hit, m_light_dir );
   }
 
-  if( dist >= 1 && dist <= 25 ) {
-    lum = (float)lum * (1.0 - (dist / 25.0));
-  }
+  if( dist <  1 ) return RayHit( FLT_MAX, 0 );
+  if( dist > 25 ) return RayHit( FLT_MAX, 0 );
+
+  lum = (float)lum * (1.0 - (dist / 25.0));
 
   return RayHit( dist, lum );
 }

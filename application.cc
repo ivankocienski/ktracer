@@ -6,9 +6,8 @@
 #include "application.hh"
 #include "camera.hh"
 #include "window.hh"
+#include "scene.hh"
 #include "film.hh"
-#include "sphere.hh"
-#include "plane.hh"
 
 using namespace std;
 
@@ -16,8 +15,6 @@ Application::Application( int argc, char ** argv ) {
 }
 
 int Application::main() {
-
-  // we need a scene.
 
   if( !m_window.open( 800, 600, "ktracer demo" )) {
     cerr << "could not open window" << endl;

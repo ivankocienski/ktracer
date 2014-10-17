@@ -36,5 +36,7 @@ float Plane::luminance( const Vector3& hit_pos, const Vector3& l ) {
   u *= 128;
   v *= 128;
 
-  return ((int)u ^ (int)v);
+  unsigned char p = (int)u ^ (int)v;
+
+  return p / 255.0;
 }
