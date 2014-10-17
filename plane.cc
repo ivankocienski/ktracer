@@ -1,22 +1,16 @@
 
 #include <math.h>
 
-
-#include "debug.h"
-
 #include "plane.hh"
 
 using namespace std;
 
-Plane::Plane( const Vector3 &p, const Vector3 &d ) {
+Plane::Plane( const Vector3 &p, const Vector3 &d ) : SceneObject() {
   m_position = p;
   m_direction = d;
-
-  m_tex_w = 8 ;
-  m_tex_h = 8;
 }
 
-bool Plane::has_hit( Vector3& ray_pos, Vector3& ray_dir, float* dist ) {
+bool Plane::has_hit( const Vector3& ray_pos, const Vector3& ray_dir, float* dist ) {
 
   float n = ray_dir.dot( m_direction );
 
@@ -29,7 +23,7 @@ bool Plane::has_hit( Vector3& ray_pos, Vector3& ray_dir, float* dist ) {
   return true;
 }
 
-float Plane::luminance( Vector3& hit_pos ) {
+float Plane::luminance( const Vector3& hit_pos, const Vector3& l ) {
   
   Vector3 offset = m_position - hit_pos;
 

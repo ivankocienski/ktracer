@@ -3,7 +3,7 @@
 
 #include "sphere.hh"
 
-Sphere::Sphere( Vector3 const &p, float r ) {
+Sphere::Sphere( Vector3 const &p, float r ) : SceneObject() {
   m_position = p;
   m_radius = r;
 }

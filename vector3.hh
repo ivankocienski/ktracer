@@ -15,8 +15,8 @@ public:
   Vector3();
 
   void  normalize();
-  float magnitude();
-  float dot( const Vector3 & );
+  float magnitude() const;
+  float dot( const Vector3 & ) const;
   void  invert();
 
   Vector3 cross( const Vector3 & );
@@ -24,9 +24,9 @@ public:
   void operator*=( float );
   void operator+=( float );
 
-  Vector3 operator-( const Vector3 & );
-  Vector3 operator+( const Vector3 & );
-  Vector3 operator*( float );
+  Vector3 operator-( const Vector3 & ) const;
+  Vector3 operator+( const Vector3 & ) const;
+  Vector3 operator*( float ) const;
 
   void dump();
 };

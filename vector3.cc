@@ -17,7 +17,7 @@ Vector3::Vector3( float _x, float _y, float _z ) {
   z = _z;
 };
 
-float Vector3::magnitude() {
+float Vector3::magnitude() const {
   return sqrt( x * x + y * y + z * z );
 }
 
@@ -49,7 +49,7 @@ void Vector3::operator+=( float q ) {
   z += q; 
 }
 
-float Vector3::dot( const Vector3 &v ) {
+float Vector3::dot( const Vector3 &v ) const {
   return x * v.x + y * v.y + z * v.z;
 }
 
@@ -68,14 +68,14 @@ void Vector3::dump() {
   std::cout << "x=" << x << ", y=" << y << ", z=" << z << std::endl;
 }
 
-Vector3 Vector3::operator-( const Vector3 &v ) {
+Vector3 Vector3::operator-( const Vector3 &v ) const {
   return Vector3( x - v.x, y - v.y, z - v.z );
 }
 
-Vector3 Vector3::operator+( const Vector3 &v ) {
+Vector3 Vector3::operator+( const Vector3 &v ) const {
   return Vector3( x + v.x, y + v.y, z + v.z );
 }
 
-Vector3 Vector3::operator*( float d ) {
+Vector3 Vector3::operator*( float d ) const {
   return Vector3( x * d, y * d, z * d );
 }

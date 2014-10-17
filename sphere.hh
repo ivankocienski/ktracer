@@ -1,13 +1,16 @@
 
 #pragma once
 
+#include "scene-object.hh"
 #include "vector3.hh"
 
-class Sphere {
-public:
-  
+class Sphere : public SceneObject {
+private:
+
   Vector3 m_position;
   float   m_radius;
+
+public:
 
   Sphere( Vector3 const&, float );
 

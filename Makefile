@@ -13,7 +13,9 @@ OBJECTS= \
 	film.o \
 	ray.o \
 	sphere.o \
-	plane.o
+	plane.o \
+	scene.o \
+	scene-object.o
 
 
 all: $(OBJECTS)
