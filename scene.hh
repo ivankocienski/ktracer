@@ -23,6 +23,6 @@ public:
   void build();
 
   RayHit trace( const Ray& );
-  RayHit trace( const Ray&, int );
+  RayHit trace( const Ray&, int, SCENE_OBJECT_PTR );
 };
 

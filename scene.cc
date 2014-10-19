@@ -18,10 +18,10 @@ void Scene::build() {
     Sphere *sphere;
     
     sphere_mat.m_reflectance = 1;
-
-    sphere = new Sphere( Vector3(  0.5, 0, -11.5 ), sphere_mat, 1 );
+    sphere = new Sphere( Vector3(  1.5, 0, -11.5 ), sphere_mat, 1 );
     m_objects.push_back( SCENE_OBJECT_PTR( sphere ));
 
+    sphere_mat.m_reflectance = 0;
     sphere = new Sphere( Vector3( -0.5, 0, -10.5 ), sphere_mat, 1 );
     m_objects.push_back( SCENE_OBJECT_PTR( sphere ));
   }
@@ -41,7 +41,7 @@ void Scene::build() {
   cout << "scene has " << m_objects.size() << " objects defined" << endl;
 }
 
-RayHit Scene::trace( const Ray& ray, int bounce ) {
+RayHit Scene::trace( const Ray& ray, int bounce, SCENE_OBJECT_PTR self  ) {
 
   float dist = FLT_MAX;
   float lum = 0;
@@ -49,6 +49,8 @@ RayHit Scene::trace( const Ray& ray, int bounce ) {
   scene_object_vector_t::iterator it;
 
   for( it = m_objects.begin(); it != m_objects.end(); it++ ) {
+
+    if( self && self == *it ) continue;
 
     SCENE_OBJECT_PTR obj = *it;
 
@@ -60,7 +62,7 @@ RayHit Scene::trace( const Ray& ray, int bounce ) {
 
     if( obj->material().m_reflectance > 0 && bounce ) {
 
-      RayHit bounce_hit = trace( ray.reflect( d, obj->normal(hit) ), bounce - 1 ); 
+      RayHit bounce_hit = trace( ray.reflect( d, obj->normal(hit) ), bounce - 1, obj ); 
 
       // ignore distance as this is not a primary ray.
 
@@ -75,14 +77,18 @@ RayHit Scene::trace( const Ray& ray, int bounce ) {
     dist = d;
   }
 
-  if( dist <  1 ) return RayHit( FLT_MAX, 0 );
-  if( dist > 25 ) return RayHit( FLT_MAX, 0 );
-
-  lum = (float)lum * (1.0 - (dist / 25.0));
-
   return RayHit( dist, lum );
 }
 
 RayHit Scene::trace( const Ray& ray ) {
-  return trace( ray, 3 );
+
+  // have different logic for primary ray, object rays
+  RayHit hit = trace( ray, 3, SCENE_OBJECT_PTR() );
+  
+  if( hit.m_distance <  1 ) return RayHit( FLT_MAX, 0 );
+  if( hit.m_distance > 25 ) return RayHit( FLT_MAX, 0 );
+
+  hit.m_luminance = (float)hit.m_luminance * (1.0 - (hit.m_distance / 25.0));
+
+  return hit;
 }
