@@ -2,14 +2,16 @@
 #pragma once
 
 #include "vector3.hh"
+#include "material.hh"
 
 class RayHit {
 public:
 
   float m_distance;
   float m_luminance;
+  const Material *m_material;
 
-  RayHit( float, float );
+  RayHit( float, float, const Material* );
 
   float luminance();
 };

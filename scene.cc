@@ -8,10 +8,17 @@
 #include "vector3.hh"
 #include "sphere.hh"
 #include "plane.hh"
+#include "sky.hh"
 
 Scene::Scene() {}
 
 void Scene::build() {
+
+  {
+    Sky *sky;
+    sky = new Sky();
+    m_objects.push_back( SCENE_OBJECT_PTR( sky ));
+  }
 
   {
     Material sphere_mat;
@@ -44,6 +51,7 @@ void Scene::build() {
 RayHit Scene::trace( const Ray& ray, int bounce, SCENE_OBJECT_PTR self  ) {
 
   float dist = FLT_MAX;
+  const Material *mat = NULL;
   float lum = 0;
   float d;
   scene_object_vector_t::iterator it;
@@ -56,7 +64,7 @@ RayHit Scene::trace( const Ray& ray, int bounce, SCENE_OBJECT_PTR self  ) {
 
     if( !obj->has_hit( ray.m_position, ray.m_direction, &d )) continue;
 
-    if( d >= dist ) continue;
+    if( d > dist ) continue;
 
     Vector3 hit = ray.m_position + (ray.m_direction * d);
 
@@ -74,10 +82,15 @@ RayHit Scene::trace( const Ray& ray, int bounce, SCENE_OBJECT_PTR self  ) {
       lum  = obj->luminance( hit, m_light_dir );
     }
 
+    mat = &obj->material();
     dist = d;
   }
 
-  return RayHit( dist, lum );
+  if( !mat ) {
+    cout << "mat == NULL" << endl;
+  }
+
+  return RayHit( dist, lum, mat );
 }
 
 RayHit Scene::trace( const Ray& ray ) {
@@ -85,10 +98,12 @@ RayHit Scene::trace( const Ray& ray ) {
   // have different logic for primary ray, object rays
   RayHit hit = trace( ray, 3, SCENE_OBJECT_PTR() );
   
-  if( hit.m_distance <  1 ) return RayHit( FLT_MAX, 0 );
-  if( hit.m_distance > 25 ) return RayHit( FLT_MAX, 0 );
+  if( !hit.m_material || hit.m_material->m_falloff ) {
+    if( hit.m_distance <  1 ) return RayHit( FLT_MAX, 0, NULL );
+    if( hit.m_distance > 25 ) return RayHit( FLT_MAX, 0, NULL );
 
-  hit.m_luminance = (float)hit.m_luminance * (1.0 - (hit.m_distance / 25.0));
+    hit.m_luminance = (float)hit.m_luminance * (1.0 - (hit.m_distance / 25.0));
+  }
 
   return hit;
 }

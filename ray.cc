@@ -1,9 +1,10 @@
 
 #include "ray.hh"
 
-RayHit::RayHit( float d, float i ) {
+RayHit::RayHit( float d, float i, const Material* m ) {
   m_distance  = d;
   m_luminance = i;
+  m_material  = m;
 }
 
 float RayHit::luminance() {
