@@ -64,7 +64,7 @@ Vector3 Vector3::cross( const Vector3 &v ) {
   return nv;
 }
 
-void Vector3::dump() {
+void Vector3::dump() const {
   std::cout << "x=" << x << ", y=" << y << ", z=" << z << std::endl;
 }
 

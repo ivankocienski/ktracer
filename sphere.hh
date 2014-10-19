@@ -7,16 +7,14 @@
 class Sphere : public SceneObject {
 private:
 
-  Vector3 m_position;
-  float   m_radius;
+  float m_radius;
 
 public:
 
-  Sphere( Vector3 const&, float );
+  Sphere( Vector3 const&, Material const&, float );
 
-  bool has_hit( const Vector3&, const Vector3&, float* );
-
-  float luminance( const Vector3&, const Vector3& );
-
+  bool has_hit( const Vector3&, const Vector3&, float* ) const;
+  float luminance( const Vector3&, const Vector3& ) const;
+  Vector3 normal( const Vector3& ) const;
 };
 

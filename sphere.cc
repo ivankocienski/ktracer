@@ -3,12 +3,11 @@
 
 #include "sphere.hh"
 
-Sphere::Sphere( Vector3 const &p, float r ) : SceneObject() {
-  m_position = p;
+Sphere::Sphere( Vector3 const &p, Material const &mat, float r ) : SceneObject(p, mat) {
   m_radius = r;
 }
 
-bool Sphere::has_hit( const Vector3 &ray_pos, const Vector3 &ray_dir, float *dist ) {
+bool Sphere::has_hit( const Vector3 &ray_pos, const Vector3 &ray_dir, float *dist ) const {
   
   // we only have one sphere...
 
@@ -34,15 +33,18 @@ bool Sphere::has_hit( const Vector3 &ray_pos, const Vector3 &ray_dir, float *dis
   return true;
 }
 
-float Sphere::luminance( const Vector3 &hit_pos, const Vector3 &light_dir ) {
+float Sphere::luminance( const Vector3 &hit_pos, const Vector3 &light_dir ) const {
 
-//  light_dir.dump();
+  float d = light_dir.dot(normal(hit_pos));
+  if( d >= 0 ) return 0; // 'behind' us
+
+  return -d; 
+}
+
+Vector3 Sphere::normal( const Vector3 &hit_pos ) const {
 
   Vector3 surface_normal = m_position - hit_pos;
   surface_normal.normalize();
 
-  float d = light_dir.dot(surface_normal);
-  if( d >= 0 ) return 0; // 'behind' us
-
-  return -d; 
+  return surface_normal; 
 }

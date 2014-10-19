@@ -15,7 +15,8 @@ OBJECTS= \
 	sphere.o \
 	plane.o \
 	scene.o \
-	scene-object.o
+	scene-object.o \
+	material.o
 
 
 all: $(OBJECTS)

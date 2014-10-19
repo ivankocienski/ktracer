@@ -22,6 +22,6 @@ public:
 
   Ray( const Vector3&, const Vector3& ); 
 
-  //Ray reflect( Vector3& );
+  Ray reflect( float, const Vector3& ) const;
 };
 

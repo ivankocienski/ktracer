@@ -28,7 +28,7 @@ public:
   Vector3 operator+( const Vector3 & ) const;
   Vector3 operator*( float ) const;
 
-  void dump();
+  void dump() const;
 };
 
 #endif /* _IK_VECTOR_INC_ */
