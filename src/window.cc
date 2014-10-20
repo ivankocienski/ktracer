@@ -119,9 +119,14 @@ void Window::tick() {
         break;
 
       case SDL_KEYUP:
-        if(event.key.keysym.sym == SDLK_F12) {
-          m_active = false;
 
+        switch( event.key.keysym.sym ) {
+          case SDLK_F12:   m_active = false; break;
+          case SDLK_UP:    m_keys.push_back( K_UP ); break;
+          case SDLK_DOWN:  m_keys.push_back( K_DOWN ); break;
+          case SDLK_LEFT:  m_keys.push_back( K_LEFT ); break;
+          case SDLK_RIGHT: m_keys.push_back( K_RIGHT ); break;
+          default: break;
         }
         break;
 
@@ -139,4 +144,13 @@ int Window::mouse_x() {
 
 int Window::mouse_y() {
   return m_mouse_y;
+}
+
+int Window::get_next_key() {
+  if( m_keys.empty() ) return K_NULL;
+
+  int k = m_keys.front();
+  m_keys.pop_front();
+  
+  return k;
 }
