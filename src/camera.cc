@@ -60,8 +60,8 @@ void Camera::raytrace( Film& film, Scene &scene ) {
 }
 
 void Camera::move( float d ) { 
-  m_position.x += cos( m_heading ) * d;
-  m_position.z += sin( m_heading ) * d; 
+  m_position.x += -sin( m_heading ) * d;
+  m_position.z += -cos( m_heading ) * d; 
 }
 
 void Camera::turn( float d ) {

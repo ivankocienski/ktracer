@@ -16,7 +16,7 @@ public:
 
     mat.m_v[0] = 1;
     mat.m_v[4] = 1;
-    mat.m_v[9] = 1;
+    mat.m_v[8] = 1;
 
     return mat;
   }
@@ -28,10 +28,10 @@ public:
     float s = sin(d);
 
     mat.m_v[0] = c;
-    mat.m_v[2] = c;
+    mat.m_v[2] = s;
     mat.m_v[4] = 1;
     mat.m_v[6] = -s;
-    mat.m_v[9] = c;
+    mat.m_v[8] = c;
 
     return mat;
   }

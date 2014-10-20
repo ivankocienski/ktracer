@@ -51,12 +51,12 @@ int Application::main() {
           break;
 
         case Window::K_LEFT:
-          m_camera.turn( -0.1 );
+          m_camera.turn( 0.1 );
           refresh = true;
           break;
 
         case Window::K_RIGHT:
-          m_camera.turn( 0.1 );
+          m_camera.turn( -0.1 );
           refresh = true;
           break;
 
