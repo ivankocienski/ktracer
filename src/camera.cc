@@ -4,6 +4,8 @@
 #include <math.h>
 #include <float.h>
 
+#include "matrix3.hh"
+#include "operations.hh"
 #include "camera.hh"
 #include "ray.hh"
 
@@ -42,6 +44,11 @@ void Camera::raytrace( Film& film, Scene &scene ) {
 			float yy = (1 - 2 * ((y + 0.5) * ih)) * angle;
 
       Vector3 dir = Vector3( xx, yy, -1 );
+
+      Matrix3 rot_mat = Matrix3::rotation_x_matrix( m_heading );
+
+      vec3_mat3_multiply( dir, rot_mat );
+
       dir.normalize();
 
       RayHit hit = scene.trace( Ray( m_position, dir ));
@@ -52,3 +59,11 @@ void Camera::raytrace( Film& film, Scene &scene ) {
   }
 }
 
+void Camera::move( float d ) { 
+  m_position.x += cos( m_heading ) * d;
+  m_position.z += sin( m_heading ) * d; 
+}
+
+void Camera::turn( float d ) {
+  m_heading += d; 
+}

@@ -41,26 +41,22 @@ int Application::main() {
       switch( key ) {
 
         case Window::K_UP:
-          ypos += 0.1;
-          m_camera.position( xpos, 0, ypos );
+          m_camera.move( 0.1 );
           refresh = true;
           break;
 
         case Window::K_DOWN:
-          ypos -= 0.1;
-          m_camera.position( xpos, 0, ypos );
+          m_camera.move( -0.1 );
           refresh = true;
           break;
 
         case Window::K_LEFT:
-          xpos -= 0.1;
-          m_camera.position( xpos, 0, ypos );
+          m_camera.turn( -0.1 );
           refresh = true;
           break;
 
         case Window::K_RIGHT:
-          xpos += 0.1;
-          m_camera.position( xpos, 0, ypos );
+          m_camera.turn( 0.1 );
           refresh = true;
           break;
 

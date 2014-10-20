@@ -23,5 +23,10 @@ public:
   void position( float, float, float );
   void direction( float, float );
   void raytrace( Film&, Scene& );
+
+  // these should be in some kind of 'player' class
+
+  void move( float );
+  void turn( float );
 };
 
