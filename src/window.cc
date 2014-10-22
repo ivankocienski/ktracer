@@ -102,7 +102,6 @@ void Window::tick() {
       case SDL_KEYUP:
 
         switch( event.key.keysym.sym ) {
-          case SDLK_F12:   m_active = false; break;
           case SDLK_UP:    m_keys[K_UP]    = false; break;
           case SDLK_DOWN:  m_keys[K_DOWN]  = false; break;
           case SDLK_LEFT:  m_keys[K_LEFT]  = false; break;
@@ -113,10 +112,41 @@ void Window::tick() {
 
       case SDL_KEYDOWN:
         switch( event.key.keysym.sym ) {
-          case SDLK_UP:    m_keys[K_UP]    = true; break;
-          case SDLK_DOWN:  m_keys[K_DOWN]  = true; break;
-          case SDLK_LEFT:  m_keys[K_LEFT]  = true; break;
-          case SDLK_RIGHT: m_keys[K_RIGHT] = true; break;
+          case SDLK_UP:    
+            push_key(K_UP);
+            m_keys[K_UP] = true; 
+            break;
+
+          case SDLK_DOWN:  
+            push_key(K_DOWN);
+            m_keys[K_DOWN] = true; 
+            break;
+
+          case SDLK_LEFT:  
+            push_key(K_LEFT);
+            m_keys[K_LEFT] = true;
+            break;
+
+          case SDLK_RIGHT:
+            push_key(K_RIGHT);
+            m_keys[K_RIGHT] = true;
+            break;
+
+          case SDLK_ESCAPE:
+            push_key(K_ESCAPE);
+            break;
+
+          case SDLK_RETURN:
+            push_key(K_ENTER);
+            break;
+
+          case SDLK_SPACE:
+            push_key(K_SPACE);
+            break;
+
+          case SDLK_F1:  push_key(K_F1);  break;
+          case SDLK_F12: push_key(K_F12); break;
+
           default: break;
         }
         break;
@@ -154,4 +184,26 @@ void Window::puts( int x, int y, const char* t ) {
     t++;
     dst.x += 8;
   } 
+}
+
+void Window::push_key( int k ) {
+
+  m_key_buffer.push_back(k);
+  if( m_key_buffer.size() > MAX_KEY_HISTORY ) 
+    m_key_buffer.pop_front();
+}
+
+void Window::flush_keys() {
+  m_key_buffer.clear();
+
+}
+
+int Window::inkey() {
+
+  if( m_key_buffer.empty() ) return K_NULL;
+
+  int k = m_key_buffer.front();
+  m_key_buffer.pop_front();
+
+  return k; 
 }
