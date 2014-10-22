@@ -32,8 +32,7 @@ void Scene::build() {
     sphere_mat.m_reflectance = 0;
     sphere = new Sphere( Vector3( -0.5, 0, -10.5 ), sphere_mat, 1 );
     m_objects.push_back( SCENE_OBJECT_PTR( sphere ));
-  }
-
+  } 
 
   {
     Material plane_mat;

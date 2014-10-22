@@ -40,12 +40,11 @@ bool Triangle::has_hit( const Vector3& ray_pos, const Vector3& ray_dir, float *d
   if (v < 0 || v > 1 || u + v > 1) return false;
 
   // calculate t, ray intersects triangle
-  //t = dot(e2, qvec) * invDet;
+  if(d) *d = m_e2.dot(qvec) * invDet;
 
   // hmm- how do we store these? 
   //   how do we calculate the hit point?
 
-  *d = 10;
 
   return true; 
 }
