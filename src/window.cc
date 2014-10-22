@@ -132,18 +132,10 @@ void Window::tick() {
             m_keys[K_RIGHT] = true;
             break;
 
-          case SDLK_ESCAPE:
-            push_key(K_ESCAPE);
-            break;
-
-          case SDLK_RETURN:
-            push_key(K_ENTER);
-            break;
-
-          case SDLK_SPACE:
-            push_key(K_SPACE);
-            break;
-
+          case SDLK_ESCAPE: push_key(K_ESCAPE); break; 
+          case SDLK_RETURN: push_key(K_ENTER); break; 
+          case SDLK_SPACE: push_key(K_SPACE); break; 
+          case SDLK_TAB: push_key(K_TAB); break;
           case SDLK_F1:  push_key(K_F1);  break;
           case SDLK_F12: push_key(K_F12); break;
 

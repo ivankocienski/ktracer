@@ -17,6 +17,7 @@ public:
     K_ESCAPE,
     K_SPACE,
     K_ENTER,
+    K_TAB,
     K_F1,
     K_F2,
     K_F3,

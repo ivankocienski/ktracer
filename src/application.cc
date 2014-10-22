@@ -55,6 +55,8 @@ void Application::do_detail_view() {
     buflen = snprintf( buffer, 1024, "%.3f FPS", (1.0 / float(end - start )) * 1000.0);
     m_window.puts( 790 - buflen * 8, 10, buffer );
 
+    m_window.puts( 10, 10, "Detail view" );
+
     m_window.puts( 10, 580, "F1:HELP  F12:QUIT" );
     m_window.tick();
 
@@ -69,6 +71,11 @@ void Application::do_detail_view() {
           m_app_mode = AM_HELP;
           return;
           break;
+
+        case Window::K_TAB:
+          m_app_mode = AM_FAST_VIEW;
+          return;
+          break;
       }
     }
 
@@ -80,6 +87,44 @@ void Application::do_detail_view() {
 
 void Application::do_fast_view() {
 
+  char buffer[1024];
+  int buflen;
+  int start = 0;
+  int end   = 0;
+
+  while( m_window.active() ) {
+
+    buflen = snprintf( buffer, 1024, "%.3f FPS", (1.0 / float(end - start )) * 1000.0);
+    m_window.puts( 790 - buflen * 8, 10, buffer );
+
+    m_window.puts( 10, 10, "Fast view" );
+
+    m_window.puts( 10, 580, "F1:HELP  F12:QUIT" );
+    m_window.tick();
+
+    if( m_window.m_keys[Window::K_UP] )    m_camera.move(  0.5 );
+    if( m_window.m_keys[Window::K_DOWN] )  m_camera.move( -0.5 );
+    if( m_window.m_keys[Window::K_LEFT] )  m_camera.turn(  0.1 );
+    if( m_window.m_keys[Window::K_RIGHT] ) m_camera.turn( -0.1 );
+    
+    while( int key = m_window.inkey() ) {
+      switch( key ) {
+        case Window::K_F1:
+          m_app_mode = AM_HELP;
+          return;
+          break;
+
+        case Window::K_TAB:
+          m_app_mode = AM_DETAIL_VIEW;
+          return;
+          break;
+      }
+    }
+
+    start = SDL_GetTicks();
+    m_camera.outline( m_window, m_scene );
+    end = SDL_GetTicks();
+  }
 }
 
 void Application::do_help() {
@@ -88,6 +133,9 @@ void Application::do_help() {
   m_window.flush_keys();
 
   m_window.puts( 10, 10, "yes, this is help" );
+
+  m_window.puts( 10, 90, "Keys" );
+  m_window.puts( 30, 110, "TAB: switch between fast/detail views" );
 
 
   while( m_window.active() ) {

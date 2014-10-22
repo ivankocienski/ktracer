@@ -21,7 +21,8 @@ public:
   Scene();
 
   void build();
-
+  
+  RayHit outline( const Ray& );
   RayHit trace( const Ray& );
   RayHit trace( const Ray&, int, SCENE_OBJECT_PTR );
 };

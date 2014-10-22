@@ -29,6 +29,7 @@ public:
   void position( float, float, float );
   void direction( float, float );
   void raytrace( Window&, Scene& );
+  void outline( Window&, Scene& );
 
   // these should be in some kind of 'player' class
 

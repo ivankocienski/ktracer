@@ -107,3 +107,18 @@ RayHit Scene::trace( const Ray& ray ) {
 
   return hit;
 }
+
+RayHit Scene::outline( const Ray& ray ) {
+
+  // have different logic for primary ray, object rays
+  RayHit hit = trace( ray, 0, SCENE_OBJECT_PTR() );
+  
+  if( !hit.m_material || hit.m_material->m_falloff ) {
+    if( hit.m_distance <  1 ) return RayHit( FLT_MAX, 0, NULL );
+    if( hit.m_distance > 25 ) return RayHit( FLT_MAX, 0, NULL );
+
+    hit.m_luminance = (float)hit.m_luminance * (1.0 - (hit.m_distance / 25.0));
+  }
+
+  return hit;
+}
