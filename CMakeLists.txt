@@ -5,13 +5,14 @@ cmake_minimum_required (VERSION 2.6)
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -dynamic -g")
 
 # makefile will print out what it is doing
-set(CMAKE_VERBOSE_MAKEFILE ON)
+#set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # a hack for SDL
 ENABLE_LANGUAGE(C)
 
 # SDL. only this for now
 find_package (SDL REQUIRED)
+find_package (SDL_image REQUIRED)
 
 # our exe name
 project (ktracer)
@@ -20,7 +21,6 @@ project (ktracer)
 set (SRC
   src/application.cc
   src/camera.cc
-  src/film.cc
   src/main.cc
   src/material.cc
   src/plane.cc
@@ -38,6 +38,12 @@ set (SRC
 
 link_libraries(
     ${SDL_LIBRARY}
+    ${SDL_IMAGE_LIBRARY}
 )
 
 add_executable(ktracer ${SRC} )
+
+add_custom_command(TARGET ktracer POST_BUILD 
+  COMMAND ln -sf ${CMAKE_SOURCE_DIR}/data
+  ${CMAKE_CURRENT_BINARY_DIR}/data COMMENT "linking data directory"
+)

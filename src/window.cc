@@ -1,9 +1,13 @@
 
+#include <cstring>
+
 #include "window.hh"
+#include <SDL/SDL_image.h>
 
 Window::Window() {
   m_screen = NULL;
   m_active = false;
+  memset( m_keys, false, sizeof(m_keys) );
 }
 
 Window::~Window() {
@@ -32,6 +36,13 @@ bool Window::open( int xr, int yr, const char *t ) {
 
   m_active = true;
 
+  m_font = IMG_Load( "data/font.png" );
+  if( !m_font ) return false;
+
+  //SDL_SetPalette( m_font, SDL_LOGPAL, palette, 0, 256 );
+
+  //SDL_SetAlpha( m_font, SDL_SRCALPHA, 0 );
+
   return true;
 }
 
@@ -47,54 +58,24 @@ int Window::height() {
   return m_screen->h;
 }
 
-void Window::show( Film &film ) {
+void Window::apply_film( std::vector<unsigned char> &film ) {
 
-  int fw;
-  int fh;
-  int fxo = 0;
-  int fyo = 0;
-  int sxo = 0;
-  int syo = 0;
-  int x;
-  int y;
-
-  fw = film.width();
-  fh = film.height();
-
-  if(fw > m_screen->w) {
-    fw  = m_screen->w;
-    fxo = (film.width() - fw) / 2;
-
-  } else {
-    sxo = (m_screen->w - fw) / 2;
-  }
-
-  if(fh > m_screen->h) {
-    fh = m_screen->h;
-    fyo = (film.height() - fh) / 2; 
-
-  } else {
-    syo = (m_screen->h - fh) / 2;
-  }
+  // film has to be the same size as the camera or bad things will happen
 
   SDL_LockSurface(m_screen);
 
   unsigned char *vbuff = (unsigned char *)m_screen->pixels;
+  unsigned char *sbuff = film.data();
 
-  vbuff += syo * m_screen->pitch + sxo;
+  for( int y = 0; y < m_screen->h; y++ ) {
+    memcpy( vbuff, sbuff, m_screen->w );
 
-  for( y = syo; y < fh; y++ ) {
-    for( x = sxo; x < fw; x++ ) {
-
-      *vbuff = film.pget( fxo + x, fyo + y );
-
-      vbuff++; 
-    }
-
-    vbuff += m_screen->pitch - fw;
+    vbuff += m_screen->pitch;
+    sbuff += m_screen->w;
   }
   
   SDL_UnlockSurface(m_screen); 
+
 }
 
 bool Window::active() {
@@ -110,7 +91,7 @@ void Window::tick() {
   SDL_Event event;
 
   SDL_Flip(m_screen);
-  SDL_Delay(100);
+  SDL_Delay(20);
 
   while(SDL_PollEvent( &event )) {
     switch( event.type ) {
@@ -122,10 +103,20 @@ void Window::tick() {
 
         switch( event.key.keysym.sym ) {
           case SDLK_F12:   m_active = false; break;
-          case SDLK_UP:    m_keys.push_back( K_UP ); break;
-          case SDLK_DOWN:  m_keys.push_back( K_DOWN ); break;
-          case SDLK_LEFT:  m_keys.push_back( K_LEFT ); break;
-          case SDLK_RIGHT: m_keys.push_back( K_RIGHT ); break;
+          case SDLK_UP:    m_keys[K_UP]    = false; break;
+          case SDLK_DOWN:  m_keys[K_DOWN]  = false; break;
+          case SDLK_LEFT:  m_keys[K_LEFT]  = false; break;
+          case SDLK_RIGHT: m_keys[K_RIGHT] = false; break;
+          default: break;
+        }
+        break;
+
+      case SDL_KEYDOWN:
+        switch( event.key.keysym.sym ) {
+          case SDLK_UP:    m_keys[K_UP]    = true; break;
+          case SDLK_DOWN:  m_keys[K_DOWN]  = true; break;
+          case SDLK_LEFT:  m_keys[K_LEFT]  = true; break;
+          case SDLK_RIGHT: m_keys[K_RIGHT] = true; break;
           default: break;
         }
         break;
@@ -146,11 +137,21 @@ int Window::mouse_y() {
   return m_mouse_y;
 }
 
-int Window::get_next_key() {
-  if( m_keys.empty() ) return K_NULL;
 
-  int k = m_keys.front();
-  m_keys.pop_front();
+void Window::puts( int x, int y, const char* t ) {
+  SDL_Rect dst = { x, y, 0, 0 };
+  SDL_Rect src = { 0, 0, 8, 8 };
   
-  return k;
+  char c;
+
+  while( *t ) {
+    c = *t - 32;
+    src.x = (c & 0x0f) << 3;
+    src.y = (c & 0xf0) >> 1;
+
+    SDL_BlitSurface( m_font, &src, m_screen, &dst );
+
+    t++;
+    dst.x += 8;
+  } 
 }

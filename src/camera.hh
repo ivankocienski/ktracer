@@ -4,12 +4,18 @@
 #include <vector>
 
 #include "vector3.hh"
-#include "film.hh"
 #include "scene.hh"
+#include "window.hh"
 
 class Camera {
 private:
 
+  int m_frame_width;
+  int m_frame_height;
+  float m_frame_ratio;
+
+  std::vector<unsigned char> m_film;
+  
   Vector3 m_position;
 
   /* TODO: use quaternions */
@@ -18,11 +24,11 @@ private:
 
 public:
 
-  Camera();
+  Camera(int, int);
 
   void position( float, float, float );
   void direction( float, float );
-  void raytrace( Film&, Scene& );
+  void raytrace( Window&, Scene& );
 
   // these should be in some kind of 'player' class
 
