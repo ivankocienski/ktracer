@@ -9,6 +9,7 @@
 #include "sphere.hh"
 #include "plane.hh"
 #include "sky.hh"
+#include "triangle.hh"
 
 Scene::Scene() {}
 
@@ -40,6 +41,18 @@ void Scene::build() {
 
     plane = new Plane( Vector3( 0, -1.5, 0 ), plane_mat, Vector3( 0, 1, 0 ) );
     m_objects.push_back( SCENE_OBJECT_PTR( plane ));
+  }
+
+  {
+    Material triangle_mat;
+
+    Triangle *triangle;
+    Vector3 a( -2.5, 0.5, 15 );
+    Vector3 b( -2.5, 0.5, 16 );
+    Vector3 c( -2.5, 1.5, 15 );
+
+    triangle = new Triangle( a, b, c, triangle_mat );
+    m_objects.push_back( SCENE_OBJECT_PTR( triangle ));
   }
 
   m_light_dir = Vector3( 0.2, 0.7, 0.3 );

@@ -19,7 +19,7 @@ public:
   float dot( const Vector3 & ) const;
   void  invert();
 
-  Vector3 cross( const Vector3 & );
+  Vector3 cross( const Vector3 & ) const;
   
   void operator*=( float );
   void operator+=( float );

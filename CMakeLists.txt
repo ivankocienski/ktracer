@@ -34,6 +34,7 @@ set (SRC
   src/matrix4.cc
   src/matrix3.cc
   src/operations.cc
+  src/triangle.cc
 )
 
 link_libraries(
